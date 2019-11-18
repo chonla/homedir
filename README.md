@@ -3,7 +3,7 @@ HomeDir
 
 Golang package that help you to create, get items in user's home directory.
 
-## Example
+# Example
 
 ```go
 package main
@@ -24,3 +24,7 @@ func main() {
     fmt.Printf("note.txt full path in home directory is %s", h.With("note.txt))
 }
 ```
+
+# License
+
+This project is licensed under the terms of the MIT license.
