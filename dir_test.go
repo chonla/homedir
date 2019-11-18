@@ -71,3 +71,48 @@ func TestCreatingHomeDirFailedFromUnableToMakeDir(t *testing.T) {
 	assert.NotNil(t, e)
 	assert.Equal(t, "sorry bro!", e.Error())
 }
+
+func TestGettingItemInsideHomeDirWithoutSlashPrefixed(t *testing.T) {
+	homedir.GetHomeDir = func() (string, error) {
+		return "/some/path", nil
+	}
+	homedir.MakeDir = func(string, os.FileMode) error {
+		return nil
+	}
+
+	h, _ := homedir.NewHomeDir("user")
+
+	p := h.With("any/path")
+
+	assert.Equal(t, fmt.Sprintf("/some/path%suser/any/path", string(os.PathSeparator)), p)
+}
+
+func TestGettingItemInsideHomeDirWithSlashPrefixed(t *testing.T) {
+	homedir.GetHomeDir = func() (string, error) {
+		return "/some/path", nil
+	}
+	homedir.MakeDir = func(string, os.FileMode) error {
+		return nil
+	}
+
+	h, _ := homedir.NewHomeDir("user")
+
+	p := h.With("/any/path")
+
+	assert.Equal(t, fmt.Sprintf("/some/path%suser/any/path", string(os.PathSeparator)), p)
+}
+
+func TestGettingItemInsideHomeDirWithManySlashesPrefixed(t *testing.T) {
+	homedir.GetHomeDir = func() (string, error) {
+		return "/some/path", nil
+	}
+	homedir.MakeDir = func(string, os.FileMode) error {
+		return nil
+	}
+
+	h, _ := homedir.NewHomeDir("user")
+
+	p := h.With("/////any/path")
+
+	assert.Equal(t, fmt.Sprintf("/some/path%suser/any/path", string(os.PathSeparator)), p)
+}

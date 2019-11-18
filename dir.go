@@ -3,6 +3,7 @@ package homedir
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 // GetHomeDir is alias for getting user home directory
@@ -46,4 +47,10 @@ func ensure(dirname string) (string, error) {
 // Path returns full path of user defined directory in home directory
 func (h *HomeDir) Path() string {
 	return h.path
+}
+
+// With returns sub path inside current home directory with user defined dir
+func (h *HomeDir) With(sub string) string {
+	sub = strings.TrimLeft(sub, string(os.PathSeparator))
+	return fmt.Sprintf("%s%s%s", h.path, string(os.PathSeparator), sub)
 }
