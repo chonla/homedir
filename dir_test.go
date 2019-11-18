@@ -54,5 +54,6 @@ func TestCreatingHomeDirFailed(t *testing.T) {
 	_, e := homedir.NewHomeDir("user")
 
 	assert.NotNil(t, e)
+	assert.Equal(t, "some error", e.Error())
 	assert.False(t, isCalled)
 }
