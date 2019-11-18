@@ -40,7 +40,7 @@ func TestGettingPathFromHomeDir(t *testing.T) {
 	assert.Equal(t, fmt.Sprintf("/some/path%suser", string(os.PathSeparator)), h.Path())
 }
 
-func TestCreatingHomeDirFailed(t *testing.T) {
+func TestCreatingHomeDirFailedFromUnableToGetUserDir(t *testing.T) {
 	isCalled := false
 
 	homedir.GetHomeDir = func() (string, error) {
@@ -56,4 +56,18 @@ func TestCreatingHomeDirFailed(t *testing.T) {
 	assert.NotNil(t, e)
 	assert.Equal(t, "some error", e.Error())
 	assert.False(t, isCalled)
+}
+
+func TestCreatingHomeDirFailedFromUnableToMakeDir(t *testing.T) {
+	homedir.GetHomeDir = func() (string, error) {
+		return "/some/path", nil
+	}
+	homedir.MakeDir = func(string, os.FileMode) error {
+		return errors.New("sorry bro!")
+	}
+
+	_, e := homedir.NewHomeDir("user")
+
+	assert.NotNil(t, e)
+	assert.Equal(t, "sorry bro!", e.Error())
 }
