@@ -2,10 +2,16 @@ package homedir
 
 import (
 	"fmt"
-	"log"
 	"os"
 )
 
+// GetHomeDir is alias for getting user home directory
+var GetHomeDir = os.UserHomeDir
+
+// MakeDir is alias for making directory
+var MakeDir = os.Mkdir
+
+// HomeDir is home directory struct
 type HomeDir struct {
 	path string
 }
@@ -23,17 +29,21 @@ func NewHomeDir(dirname string) (*HomeDir, error) {
 
 // ensure is called to ensure path existence in homedir. return full path
 func ensure(dirname string) (string, error) {
-	homePath, e := os.UserHomeDir()
+	homePath, e := GetHomeDir()
 	if e != nil {
-		log.Fatal("unable to get home directory")
 		return "", e
 	}
 
 	fullDirName := fmt.Sprintf(`%s%s%s`, homePath, string(os.PathSeparator), dirname)
 
-	e = os.Mkdir(fullDirName, 0666)
+	e = MakeDir(fullDirName, 0666)
 	if e != nil {
 		return "", e
 	}
 	return fullDirName, nil
+}
+
+// Path returns full path of user defined directory in home directory
+func (h *HomeDir) Path() string {
+	return h.path
 }
