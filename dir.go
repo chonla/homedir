@@ -12,6 +12,11 @@ var GetHomeDir = os.UserHomeDir
 // MakeDir is alias for making directory
 var MakeDir = os.Mkdir
 
+// HomeWrapper is interface of HomeDir
+type HomeWrapper interface {
+	Path() string
+}
+
 // HomeDir is home directory struct
 type HomeDir struct {
 	path string
