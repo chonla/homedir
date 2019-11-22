@@ -1,6 +1,8 @@
 HomeDir
 ======
 
+![](https://github.com/chonla/homedir/workflows/Go/badge.svg)
+
 Golang package that help you to create, get items in user's home directory.
 
 # Example
