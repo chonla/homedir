@@ -15,6 +15,7 @@ var MakeDir = os.Mkdir
 // HomeWrapper is interface of HomeDir
 type HomeWrapper interface {
 	Path() string
+	With(string) string
 }
 
 // HomeDir is home directory struct
