@@ -112,7 +112,7 @@ func TestGettingItemInsideHomeDirWithManySlashesPrefixed(t *testing.T) {
 
 	h, _ := homedir.NewHomeDir("user")
 
-	p := h.With("/////any/path")
+	p := h.With("//////any/path")
 
 	assert.Equal(t, fmt.Sprintf("/some/path%suser/any/path", string(os.PathSeparator)), p)
 }
