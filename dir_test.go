@@ -58,6 +58,20 @@ func TestCreatingHomeDirFailedFromUnableToGetUserDir(t *testing.T) {
 	assert.False(t, isCalled)
 }
 
+func TestCreatingHomeDirShouldSuccessIfHomeDirExists(t *testing.T) {
+	homedir.GetHomeDir = func() (string, error) {
+		return "/some/path", nil
+	}
+	homedir.MakeDir = func(string, os.FileMode) error {
+		return os.ErrExist
+	}
+
+	h, e := homedir.NewHomeDir("user")
+
+	assert.Nil(t, e)
+	assert.Equal(t, fmt.Sprintf("/some/path%suser", string(os.PathSeparator)), h.Path())
+}
+
 func TestCreatingHomeDirFailedFromUnableToMakeDir(t *testing.T) {
 	homedir.GetHomeDir = func() (string, error) {
 		return "/some/path", nil
