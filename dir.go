@@ -43,7 +43,7 @@ func ensure(dirname string) (string, error) {
 
 	fullDirName := fmt.Sprintf(`%s%s%s`, homePath, string(os.PathSeparator), dirname)
 
-	e = MakeDir(fullDirName, 0666)
+	e = MakeDir(fullDirName, 0755)
 	if e != nil && !os.IsExist(e) {
 		return "", e
 	}
